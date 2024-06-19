@@ -11,11 +11,11 @@ window.addEventListener('scroll', function () {
 // Show and close menu ------------------------------------------------
 let iconMenu = document.getElementById('menu-btn');
 let navbar = document.querySelector('.navbar');
-let lists_items_click = document.querySelectorAll('.nav_link--click');
 
 window.addEventListener('click', function (e) {
 
     if (e.target.contains(iconMenu)) {
+        // abrir y cerrar navbar con icono menu
         navbar.classList.toggle('active');
         searchForm.classList.remove('active');
         cartItem.classList.remove('active');
@@ -24,37 +24,38 @@ window.addEventListener('click', function (e) {
         iconSearch.classList.remove('active');
         iconCart.classList.remove('active');
 
-    }else if (e.target.classList.contains('nav_link--click')) {
+    } else if (e.target.parentNode.classList.contains('list-option')) {
+
+        let subMenu = e.target.parentNode;
+        subMenu.children[1].classList.toggle('active');
+
+    }else if (!e.target.parentNode.classList.contains('list-option')) {
+
         
-        lists_items_click.forEach(element => {
-            let height = 0;
-            let subMenu = element.nextElementSibling;
-            if(subMenu.clientHeight == "0"){
-                height = subMenu.scrollHeight;
-            }
-            subMenu.style.height = `${height}px`;
-        });
-    }
-    if ( e.target.contains(iconMenu) && e.target.classList.contains('active' )){
-        let list_show = document.querySelectorAll('.list-show');
-        
-        list_show.forEach(element => {
-              
-            element.style.height = "0px";
-            
-        });
-    }
-    if (!e.target.classList.contains('nav_link--click') && !e.target.contains(iconMenu)) {
-        let list_show = document.querySelectorAll('.list-show');
-        
-        list_show.forEach(element => {
-              
-            element.style.height = "0px";
-            
-        });
+        let lists_option = document.querySelectorAll('.list-option');
+
+        lists_option.forEach(element =>{
+            element.children[1].classList.remove('active');
+        })
+
         navbar.classList.remove('active');
         iconMenu.classList.remove('active');
     }
+    
+    if (e.target.contains(iconMenu) && !iconMenu.classList.contains('active')) {
+
+        let lists_option = document.querySelectorAll('.list-option');
+
+        lists_option.forEach(element =>{
+            element.children[1].classList.remove('active');
+        })
+
+        navbar.classList.remove('active');
+        iconMenu.classList.remove('active');
+         
+    }
+    
+    
 });
 
 
